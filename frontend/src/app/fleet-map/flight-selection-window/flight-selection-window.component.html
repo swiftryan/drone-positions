@@ -1,0 +1,45 @@
+<div class="window full-height">
+  <div *ngIf="flights; else noFlightData">
+    <h1 id="title" class="header">Flights</h1>
+    <div id="droneMenuContainer" class="dropdown window-body">
+      <button class="btn dropdown-toggle" type="button" id="droneMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{selectedDrone}}
+      </button>
+      <ul id="droneMenu" class="dropdown-menu" aria-labelledby="droneMenuButton">
+        <a class="dropdown-item" href="#">All</a>
+        <li *ngFor="let drone of getDroneNames()">
+          <a class="dropdown-item" href="#">{{drone}}</a>
+        </li>
+      </ul>
+    </div>
+    <div id="flightInfoContainer" class="window-body">
+      <h2 class="header">Flight Info</h2>
+      <div *ngFor="let flight of flights">
+        <hr style="background-color: #FFFFFF;">
+        <table class="flightInfoTable">
+          <tr>
+            <td align="right">Drone</td>
+            <td>{{flight.droneName}}</td>
+          </tr>
+          <tr>
+            <td align="right">Flight Date</td>
+            <td>{{flight.flightDate}}</td>
+          </tr>
+          <tr>
+            <td align="right">Current Coordinates</td>
+            <td>[{{flight.currentCoordinates.lat}}, {{flight.currentCoordinates.lon}}]</td>
+          </tr>
+          <tr>
+            <td align="right">Path</td>
+            <td>table</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #noFlightData>
+  <h1 class="header">No Flight data available</h1>
+</ng-template>

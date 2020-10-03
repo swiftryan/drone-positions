@@ -1,0 +1,16 @@
+<div class="container-fluid full-height">
+  <div class="row full-height">
+    <div class="col-9 no-padding">
+      <app-map></app-map>
+    </div>
+    <div class="col-3 no-padding">
+        <div *ngIf="flights; else noFlightData" class="full-height">
+          <app-flight-selection-window [flights]="flights"></app-flight-selection-window>
+        </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noFlightData class="full-height">
+  No Flight data available
+</ng-template>
