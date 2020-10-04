@@ -32,6 +32,15 @@ const originalFlights = [
             new PathSection(new Coordinates(38.9, -77.0), 2, false)
         ],
         new Coordinates(40.7, -74.0)
+    ),
+    new Flight('Beta',
+        moment('2013-02-08'),
+        [
+            new PathSection(new Coordinates(37.891607, -122.082704), 1, true),
+            new PathSection(new Coordinates(37.811997, -122.023033), 2, true),
+            new PathSection(new Coordinates(37.885112, -121.95132), 3, false),
+        ],
+        new Coordinates(37.811997, -122.023033)
     )
 ];
 

@@ -26,4 +26,8 @@ export class FleetMapComponent implements OnInit{
       )
   }
 
+  selectedDroneChange(drone): void {
+
+  }
+
 }

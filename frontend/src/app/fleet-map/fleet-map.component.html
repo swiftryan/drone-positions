@@ -1,11 +1,13 @@
 <div class="container-fluid full-height">
   <div class="row full-height">
-    <div class="col-9 no-padding">
-      <app-map></app-map>
+    <div class="col-8 no-padding">
+      <div *ngIf="flights; else noFlightData" class="full-height">
+        <app-map [flights]="flights"></app-map>
+      </div>
     </div>
-    <div class="col-3 no-padding">
+    <div class="col-4 no-padding">
         <div *ngIf="flights; else noFlightData" class="full-height">
-          <app-flight-selection-window [flights]="flights"></app-flight-selection-window>
+          <app-flight-selection-window [flights]="flights" (selectedDroneChange)="selectedDroneChange($event)"></app-flight-selection-window>
         </div>
     </div>
   </div>

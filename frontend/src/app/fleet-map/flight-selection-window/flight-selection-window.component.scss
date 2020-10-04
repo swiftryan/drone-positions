@@ -19,6 +19,17 @@
   padding-left: 10px;
 }
 
+.left-right-pad {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+th {
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 #title {
   padding: 15px;
   text-align: center;
@@ -44,7 +55,24 @@
   overflow-x: hidden;
 }
 
-#flightInfoContainer{
-  padding: 15px;
+#flightInfoContainer {
+  padding: 15px 0 15px 15px;
+  .scroll-info {
+    height: calc(100vh - 280px);
+    overflow-y: auto;
+  }
 }
+
+#bottomButtonContainer {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  #simulateButton, #resetButton {
+    width: 100%;
+    background-color: #FFFFFF;
+    color: #09111F;
+  }
+}
+
 

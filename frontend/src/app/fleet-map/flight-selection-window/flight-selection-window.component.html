@@ -1,39 +1,68 @@
 <div class="window full-height">
   <div *ngIf="flights; else noFlightData">
-    <h1 id="title" class="header">Flights</h1>
-    <div id="droneMenuContainer" class="dropdown window-body">
+    <h1 id="title" class="header" style="height: 88px;">Flights</h1>
+    <div id="droneMenuContainer" class="dropdown window-body" style="height: 68px;">
       <button class="btn dropdown-toggle" type="button" id="droneMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{selectedDrone}}
       </button>
       <ul id="droneMenu" class="dropdown-menu" aria-labelledby="droneMenuButton">
-        <a class="dropdown-item" href="#">All</a>
+        <a class="dropdown-item" href="#" (click)="switchDroneSelection('All')">All</a>
         <li *ngFor="let drone of getDroneNames()">
-          <a class="dropdown-item" href="#">{{drone}}</a>
+          <a class="dropdown-item" href="#" (click)="switchDroneSelection(drone)">{{drone}}</a>
         </li>
       </ul>
     </div>
+    <div id="bottomButtonContainer" class="container-fluid" style="height: 38px;">
+      <div class="row">
+        <div class="col-9">
+          <button class="btn" id="simulateButton">Simulate</button>
+        </div>
+        <div class="col-3">
+          <button class="btn" id="resetButton">Test</button>
+        </div>
+      </div>
+    </div>
     <div id="flightInfoContainer" class="window-body">
       <h2 class="header">Flight Info</h2>
-      <div *ngFor="let flight of flights">
-        <hr style="background-color: #FFFFFF;">
-        <table class="flightInfoTable">
-          <tr>
-            <td align="right">Drone</td>
-            <td>{{flight.droneName}}</td>
-          </tr>
-          <tr>
-            <td align="right">Flight Date</td>
-            <td>{{flight.flightDate}}</td>
-          </tr>
-          <tr>
-            <td align="right">Current Coordinates</td>
-            <td>[{{flight.currentCoordinates.lat}}, {{flight.currentCoordinates.lon}}]</td>
-          </tr>
-          <tr>
-            <td align="right">Path</td>
-            <td>table</td>
-          </tr>
-        </table>
+      <div class="scroll-info">
+        <div *ngFor="let flight of filteredFlights()" >
+          <hr style="background-color: #FFFFFF;">
+          <table class="flightInfoTable">
+            <tr>
+              <td align="right">Drone</td>
+              <td>{{flight.droneName}}</td>
+            </tr>
+            <tr>
+              <td align="right">Flight Date</td>
+              <td>{{flight.flightDate}}</td>
+            </tr>
+            <tr>
+              <td align="right">Current Coordinates</td>
+              <td>[{{flight.currentCoordinates.lat}}, {{flight.currentCoordinates.lon}}]</td>
+            </tr>
+            <tr>
+              <td align="right" style="vertical-align: top">Path</td>
+              <td>
+                <table>
+                  <thead>
+                  <tr>
+                    <th>Stop #</th>
+                    <th>Lat</th>
+                    <th>Lon</th>
+                    <th>Arrived</th>
+                  </tr>
+                  <tr *ngFor="let pathSection of flight.path">
+                    <td align="center">{{pathSection.pathOrderNum}}</td>
+                    <td align="right" class="left-right-pad">{{pathSection.coordinates.lat}}</td>
+                    <td align="right" class="left-right-pad">{{pathSection.coordinates.lon}}</td>
+                    <td align="right">{{pathSection.hasArrived}}</td>
+                  </tr>
+                  </thead>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
 
     </div>
