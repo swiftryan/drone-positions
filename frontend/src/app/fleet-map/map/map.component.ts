@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {environment} from "../../../environments/environment";
 import {Flight, PathSection} from "../../models/models";
@@ -8,9 +8,10 @@ import {Flight, PathSection} from "../../models/models";
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent {
+export class MapComponent implements OnChanges{
 
   @Input() flights: Flight[];
+  @Input() selectedDrone;
 
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
@@ -20,6 +21,7 @@ export class MapComponent {
   constructor() { }
 
   ngOnInit() {
+    // Display a map
     this.map = new mapboxgl.Map({
       accessToken: environment.mapbox.accessToken,
       container: 'map',
@@ -27,12 +29,38 @@ export class MapComponent {
       zoom: 13,
       center: [this.lon, this.lat]
     });
+
     // Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
     this.placeIconsOnMap();
+
+    // Get bounds for map
+    this.allFlightBounds();
   }
 
-  placeIconsOnMap(): void {
+  ngOnChanges(changes: SimpleChanges) {
+    // On the selected value changing, we fly to new bounds
+    if(this.selectedDrone == 'All') {
+      this.allFlightBounds();
+    } else {
+      // @ts-ignore
+      this.map.fitBounds(this.calculateMapBounds(this.flights.find(flight => flight.droneName == changes.selectedDrone.currentValue).path));
+    }
+  }
+
+  allFlightBounds() {
+    // Get bounds for map
+    let allPaths = [];
+    this.flights.forEach(flight => {
+      flight.path.forEach(section => {
+        allPaths.push(section);
+      })
+    });
+    // @ts-ignore
+    this.map.fitBounds(this.calculateMapBounds(allPaths));
+  }
+
+  placeIconsOnMap() {
     // Initial placement of icons on the map
 
     this.map.on('load', () => {
@@ -50,7 +78,7 @@ export class MapComponent {
     });
   }
 
-  addDestinationsAndPathsToMap(droneName, path: PathSection[]): void {
+  addDestinationsAndPathsToMap(droneName, path: PathSection[]) {
     // add a layer that displays the paths
     const sourcePathId = droneName + 'path';
 
@@ -204,7 +232,7 @@ export class MapComponent {
 
   }
 
-  addCurrentDroneLocationToMap(droneName, lat, lon): void {
+  addCurrentDroneLocationToMap(droneName, lat, lon) {
     this.map.addSource(droneName, {
       'type': 'geojson',
       'data': {
@@ -230,5 +258,31 @@ export class MapComponent {
         'icon-size': 0.25
       }
     });
+  }
+
+  calculateMapBounds(path: PathSection[]) {
+    let lats = [];
+    let lons = [];
+
+    path.forEach(section => {
+      lats.push(section.coordinates.lat);
+      lons.push(section.coordinates.lon);
+    });
+
+    // return [Math.min(...lons) - 0.5, Math.min(...lats) - 0.5, Math.max(...lons) + 0.5, Math.max(...lats) + 0.5];
+
+    let minLon = Math.min(...lons) - 0.5;
+    if(minLon < -180.0) minLon = -180.0
+
+    let maxLon = Math.max(...lons) + 0.5;
+    if(maxLon > 180.0) maxLon = 180.0
+
+    let minLat = Math.min(...lats) - 0.5
+    if(minLat < -90.0) minLat = -90.0
+
+    let maxLat = Math.max(...lats) + 0.5;
+    if(maxLat > 90.0) maxLat = 90.0
+
+    return [minLon, minLat, maxLon, maxLat];
   }
 }

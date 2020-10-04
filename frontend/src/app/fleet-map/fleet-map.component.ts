@@ -10,6 +10,7 @@ import {Flight} from "../models/models";
 export class FleetMapComponent implements OnInit{
 
   flights: Flight[];
+  selectedDrone: 'All'
 
   constructor(private flightService: FlightService) {}
 
@@ -27,7 +28,7 @@ export class FleetMapComponent implements OnInit{
   }
 
   selectedDroneChange(drone): void {
-
+    this.selectedDrone = drone;
   }
 
 }

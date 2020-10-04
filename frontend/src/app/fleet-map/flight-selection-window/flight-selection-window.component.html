@@ -1,6 +1,7 @@
 <div class="window full-height">
   <div *ngIf="flights; else noFlightData">
     <h1 id="title" class="header" style="height: 88px;">Flights</h1>
+    <h2 id="droneSelectionHeader" class="header">Drone Selection</h2>
     <div id="droneMenuContainer" class="dropdown window-body" style="height: 68px;">
       <button class="btn dropdown-toggle" type="button" id="droneMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{selectedDrone}}
@@ -11,16 +12,6 @@
           <a class="dropdown-item" href="#" (click)="switchDroneSelection(drone)">{{drone}}</a>
         </li>
       </ul>
-    </div>
-    <div id="bottomButtonContainer" class="container-fluid" style="height: 38px;">
-      <div class="row">
-        <div class="col-9">
-          <button class="btn" id="simulateButton">Simulate</button>
-        </div>
-        <div class="col-3">
-          <button class="btn" id="resetButton">Test</button>
-        </div>
-      </div>
     </div>
     <div id="flightInfoContainer" class="window-body">
       <h2 class="header">Flight Info</h2>

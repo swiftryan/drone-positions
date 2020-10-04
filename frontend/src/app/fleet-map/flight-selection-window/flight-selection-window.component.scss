@@ -36,6 +36,10 @@ th {
   font-size: 300%;
 }
 
+#droneSelectionHeader {
+  padding-left: 15px;
+}
+
 #droneMenuButton {
   background-color: #FFFFFF;
   color: #09111F;
@@ -60,18 +64,6 @@ th {
   .scroll-info {
     height: calc(100vh - 280px);
     overflow-y: auto;
-  }
-}
-
-#bottomButtonContainer {
-  width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
-
-  #simulateButton, #resetButton {
-    width: 100%;
-    background-color: #FFFFFF;
-    color: #09111F;
   }
 }
 
