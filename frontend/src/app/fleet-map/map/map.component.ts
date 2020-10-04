@@ -43,8 +43,10 @@ export class MapComponent implements OnChanges{
     if(this.selectedDrone == 'All') {
       this.allFlightBounds();
     } else {
-      // @ts-ignore
-      this.map.fitBounds(this.calculateMapBounds(this.flights.find(flight => flight.droneName == changes.selectedDrone.currentValue).path));
+      if(this.map) {
+        // @ts-ignore
+        this.map.fitBounds(this.calculateMapBounds(this.flights.find(flight => flight.droneName == changes.selectedDrone.currentValue).path));
+      }
     }
   }
 
@@ -110,10 +112,51 @@ export class MapComponent implements OnChanges{
       }
     });
 
+    // add a layer that displays the origin locations
+    let originFeatures = []
+
+    path.filter(pathSection => pathSection.pathOrderNum == 1)
+      .forEach(section => {
+        originFeatures.push(
+          {
+            'type': 'Feature',
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [section.coordinates.lon, section.coordinates.lat]
+            },
+            'properties': {
+              'description': `<strong>Destination #${section.pathOrderNum} (Origin)</strong><p>Drone: ${droneName}<br>LAT: ${section.coordinates.lat}<br>LON: ${section.coordinates.lon}<br>Has Visited: ${section.hasArrived}</p>`
+            }
+          }
+        )
+      })
+
+    const originSourceId = droneName + 'origin';
+
+    this.map.addSource(originSourceId, {
+      'type': 'geojson',
+      'data': {
+        'type': 'FeatureCollection',
+        'features': originFeatures
+      }
+    });
+
+    this.map.addLayer({
+      id: originSourceId + 'circles',
+      type: 'circle',
+      source: originSourceId,
+      paint: {
+        'circle-color': '#4F86C6',
+        'circle-radius': 8,
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#333',
+      },
+    });
+
     // add a layer that displays the visited locations
     let visitedFeatures = []
 
-    path.filter(pathSection => pathSection.hasArrived)
+    path.filter(pathSection => pathSection.hasArrived && pathSection.pathOrderNum != 1)
       .forEach(section => {
         visitedFeatures.push(
           {
@@ -193,7 +236,7 @@ export class MapComponent implements OnChanges{
     });
 
     // Add popups
-    this.addHoverPopups([notVisitedSourceId + 'circles', visitedSourceId + 'circles']);
+    this.addHoverPopups([originSourceId + 'circles', notVisitedSourceId + 'circles', visitedSourceId + 'circles']);
   }
 
   addHoverPopups(layers) {
@@ -268,8 +311,6 @@ export class MapComponent implements OnChanges{
       lats.push(section.coordinates.lat);
       lons.push(section.coordinates.lon);
     });
-
-    // return [Math.min(...lons) - 0.5, Math.min(...lats) - 0.5, Math.max(...lons) + 0.5, Math.max(...lats) + 0.5];
 
     let minLon = Math.min(...lons) - 0.5;
     if(minLon < -180.0) minLon = -180.0

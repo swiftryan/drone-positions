@@ -1,5 +1,4 @@
 const moment = require('moment');
-const _ = require('lodash');
 
 class Coordinates {
     constructor(lat, lon) {
@@ -28,27 +27,60 @@ const originalFlights = [
     new Flight('Alpha',
         moment('2013-02-08'),
         [
-            new PathSection(new Coordinates(40.7, -74.0), 1, true),
-            new PathSection(new Coordinates(38.9, -77.0), 2, false)
+            new PathSection(new Coordinates(37.887285, -121.430604), 1, true),
+            new PathSection(new Coordinates(37.887285, -121.780187), 2, true),
+            new PathSection(new Coordinates(37.638558, -121.780187), 3, true),
+            new PathSection(new Coordinates(37.638558, -121.430604), 4, true),
+            new PathSection(new Coordinates(37.450694, -121.430604), 5, false),
+            new PathSection(new Coordinates(37.450694, -121.780187), 6, false),
         ],
-        new Coordinates(40.7, -74.0)
+        new Coordinates(37.638558, -121.430604)
     ),
     new Flight('Beta',
         moment('2013-02-08'),
         [
-            new PathSection(new Coordinates(37.891607, -122.082704), 1, true),
-            new PathSection(new Coordinates(37.811997, -122.023033), 2, true),
-            new PathSection(new Coordinates(37.885112, -121.95132), 3, false),
+            new PathSection(new Coordinates(37.887285, -121.213943), 1, true),
+            new PathSection(new Coordinates(37.450694, -121.023033), 2, true),
+            new PathSection(new Coordinates(37.887285, -120.923033), 3, true),
+            new PathSection(new Coordinates(37.450694, -120.723033), 4, true),
+            new PathSection(new Coordinates(37.887285, -120.523033), 5, false),
         ],
-        new Coordinates(37.811997, -122.023033)
-    )
+        new Coordinates(37.450694, -120.723033)
+    ),
+    new Flight('Charlie',
+        moment('2013-02-08'),
+        [
+            new PathSection(new Coordinates(37.887285, -120.323033), 1, true),
+            new PathSection(new Coordinates(37.450694, -120.323033), 2, true),
+        ],
+        new Coordinates(37.450694, -120.323033)
+    ),
+    new Flight('Delta',
+        moment('2013-02-08'),
+        [
+            new PathSection(new Coordinates(37.450694, -120.023033), 1, true),
+            new PathSection(new Coordinates(37.638558, -120.023033), 2, false),
+            new PathSection(new Coordinates(37.638558, -119.823033), 3, false),
+            new PathSection(new Coordinates(37.648558, -120.023033), 4, false),
+            new PathSection(new Coordinates(37.887285, -120.123033), 5, false),
+            new PathSection(new Coordinates(37.887285, -119.823033), 6, false),
+        ],
+        new Coordinates(37.450694, -120.023033)
+    ),
+    new Flight('Foxtrot',
+        moment('2013-02-08'),
+        [
+            new PathSection(new Coordinates(37.887285, -119.623033), 1, true),
+            new PathSection(new Coordinates(37.887285, -119.423033), 2, true),
+            new PathSection(new Coordinates(37.877285, -119.523033), 3, false),
+            new PathSection(new Coordinates(37.450694, -119.523033), 4, false),
+        ],
+        new Coordinates(37.887285, -119.423033)
+    ),
 ];
 
 let db = {
-    flights : _.cloneDeep(originalFlights),
-    reset() {
-        this.flights = _.cloneDeep(originalFlights);
-    }
+    flights : originalFlights
 };
 
 module.exports = db;

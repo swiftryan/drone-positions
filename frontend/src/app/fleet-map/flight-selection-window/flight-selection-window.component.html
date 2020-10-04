@@ -1,7 +1,9 @@
 <div class="window full-height">
   <div *ngIf="flights; else noFlightData">
     <h1 id="title" class="header" style="height: 88px;">Flights</h1>
+
     <h2 id="droneSelectionHeader" class="header">Drone Selection</h2>
+
     <div id="droneMenuContainer" class="dropdown window-body" style="height: 68px;">
       <button class="btn dropdown-toggle" type="button" id="droneMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         {{selectedDrone}}
@@ -13,23 +15,25 @@
         </li>
       </ul>
     </div>
+
     <div id="flightInfoContainer" class="window-body">
       <h2 class="header">Flight Info</h2>
+
       <div class="scroll-info">
         <div *ngFor="let flight of filteredFlights()" >
           <hr style="background-color: #FFFFFF;">
           <table class="flightInfoTable">
             <tr>
-              <td align="right">Drone</td>
+              <td align="right">Drone Name</td>
               <td>{{flight.droneName}}</td>
             </tr>
             <tr>
               <td align="right">Flight Date</td>
-              <td>{{flight.flightDate}}</td>
+              <td>{{flight.flightDate | date : shortDate}}</td>
             </tr>
             <tr>
               <td align="right">Current Coordinates</td>
-              <td>[{{flight.currentCoordinates.lat}}, {{flight.currentCoordinates.lon}}]</td>
+              <td>[ {{flight.currentCoordinates.lat}}, {{flight.currentCoordinates.lon}} ]</td>
             </tr>
             <tr>
               <td align="right" style="vertical-align: top">Path</td>
@@ -42,7 +46,7 @@
                     <th>Lon</th>
                     <th>Arrived</th>
                   </tr>
-                  <tr *ngFor="let pathSection of flight.path">
+                  <tr *ngFor="let pathSection of flight.path" [ngStyle]="{'color': pathSection.hasArrived ? (pathSection.pathOrderNum == 1 ? '#4F86C6' : '#32a852') : '#e38d32'}">
                     <td align="center">{{pathSection.pathOrderNum}}</td>
                     <td align="right" class="left-right-pad">{{pathSection.coordinates.lat}}</td>
                     <td align="right" class="left-right-pad">{{pathSection.coordinates.lon}}</td>

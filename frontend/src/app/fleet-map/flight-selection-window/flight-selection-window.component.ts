@@ -19,7 +19,6 @@ export class FlightSelectionWindowComponent {
   }
 
   switchDroneSelection(drone: string): void {
-    console.log(drone);
     this.selectedDrone = drone;
     this.selectedDroneChange.emit(drone);
   }

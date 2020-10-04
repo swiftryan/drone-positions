@@ -19,10 +19,9 @@ export class FleetMapComponent implements OnInit{
       .subscribe(
         (res: Flight[]) => {
           this.flights = res;
-          console.log(this.flights);
         },
         error => {
-          //TODO
+          console.log(error);
         }
       )
   }

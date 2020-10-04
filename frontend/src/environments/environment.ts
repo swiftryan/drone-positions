@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   mapbox: {
     accessToken: 'pk.eyJ1Ijoic3dpZnRyeWFuIiwiYSI6ImNrZnU0NWMzbzBmcG0yc3M5bTJuN3h5YTYifQ.LKeMxvLthfoiD1rjYiXeFA'
-  }
+  },
+  flightsEndpoint: 'http://localhost:3000/flights'
 };
 
 /*
